@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="StatusbarXamarin.Views.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Label Text="StatusBar Color!" />
+        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Button
+                x:Name="Red"
+                BackgroundColor="Red"
+                Command="{Binding SetStatusBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Red}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Red"
+                TextColor="Black" />
+            <Button
+                x:Name="Blue"
+                BackgroundColor="Blue"
+                Command="{Binding SetStatusBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Blue}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Blue"
+                TextColor="Black" />
+            <Button
+                x:Name="Green"
+                BackgroundColor="Green"
+                Command="{Binding SetStatusBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Green}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Green"
+                TextColor="Black" />
+        </StackLayout>
+        <Label Text="NavBar Color!" />
+        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+            <Button
+                BackgroundColor="Red"
+                Command="{Binding SetNavBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Red}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Red"
+                TextColor="Gray" />
+            <Button
+                BackgroundColor="Blue"
+                Command="{Binding SetNavBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Blue}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Blue"
+                TextColor="Gray" />
+            <Button
+                BackgroundColor="Green"
+                Command="{Binding SetNavBarColorCommand}"
+                CommandParameter="{Binding Source={x:Reference Green}, Path=BackgroundColor}"
+                HorizontalOptions="FillAndExpand"
+                Text="Green"
+                TextColor="Gray" />
+        </StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding FixStatusBar}" VerticalOptions="Center" />
+            <Label Text="Fix StatusBar on iOS" VerticalOptions="Center" />
+        </StackLayout>
+        <Button
+            Command="{Binding OpenPopupPageCommand}"
+            HorizontalOptions="FillAndExpand"
+            Text="Open PopupPage" />
+        <Button
+            Command="{Binding OpenNoNavigationBarPageCommand}"
+            HorizontalOptions="FillAndExpand"
+            Text="Open page with no navigation bar" />
+    </StackLayout>
+</ContentPage>
