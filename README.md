@@ -2,13 +2,13 @@
 
 ### Introduction
 
-Setting statusbar and navigation bar color is common requrement of mobile application design.
-Navigation bar is shared xamarin component for iOS and Android so its color can be changed easily from shared project. On the other hand status bar must be handled nativly on both platforms.
+Setting StatusBar and NavigationBar color is common requirement of mobile application design.
+NavigationBar is shared Xamarin component for iOS and Android so its color can be changed easily from shared project. On the other hand, StatusBar must be handled natively on both platforms.
 
-### Navigation bar color
+### NavigationBar color
 
-To set navigation bar color we are going to use xamarin xaml styles and dynamc resource binding. Since navigation bar color is property of navigation page, so we need to define style for navigation page and dinamicaly bind its BarBackgroundColor to NavigationBarColor resource.
-Using DynamicResource binding every time NavigationBarColor is changed, all resources bindied to its value will be updated.
+To set NavigationBar color we are going to use Xamarin xaml styles and dynamic resource binding. Since NavigationBar background color is property of navigation page all we need to do is define style for navigation page and dinamicaly bind its BarBackgroundColor to NavigationBarColor resource.
+Using DynamicResource binding every time NavigationBarColor is changed, all resources bound to its value will be updated.
 
 ```csharp
 <Application.Resources>
@@ -22,7 +22,7 @@ Using DynamicResource binding every time NavigationBarColor is changed, all reso
 </Application.Resources>
 ```
 
-Navigation bar color can be set by changing value of NavigationBarColor property in ResourceDictionary. So we can define INavigationBarService that will do that for us.
+Navigation bar color can be set by changing value of NavigationBarColor property in ResourceDictionary. So, we can define INavigationBarService that will do that for us.
 
 ```csharp
 public interface INavigationBarService
@@ -43,7 +43,7 @@ public class NavigationBarService : INavigationBarService
 
 ### StatusBar color Android
 
-Setting status bar color on android is relativily simple since android has native functionality to change statusbar color. We only need to create StatusBarService in android and register it to IStatusBarService in dependency injection container.
+Setting status bar color in Android is relatively simple since Android has native functionality to change StatusBar color. We only need to create StatusBarService in Android and register it to IStatusBarService in dependency injection container.
 
 ```csharp
 private readonly MainActivity _mainActivity;
@@ -58,7 +58,7 @@ public void SetStatusBarColor(Color color)
 ```
 
 Bacuse SetStatusBarColor method can be only accessed via MainActivity when registering IStatusBarService we need to pass an instance of StatusBarService that has reference to MainActivitiy.
-Since in android dependency injection is done in AndroidInitalizer we need have a way to pass mainactivity reference to initalizer, in this exapmle it is done via constructor.
+Since in android dependency injection is done in AndroidInitalizer we need a way to pass MainActivity reference to initializer, in this example it is done via constructor.
 
 ```csharp
 public class AndroidInitializer : IPlatformInitializer
@@ -77,7 +77,7 @@ public class AndroidInitializer : IPlatformInitializer
 }
 ```
 
-Lastly we need to change update OnCreate method to use our new AndoridInitalizer with MainActivity reference
+Lastly, we need to update OnCreate method to use our new AndoridInitalizer with MainActivity reference
 
 ```csharp
 protected override void OnCreate(Bundle savedInstanceState)
@@ -95,10 +95,10 @@ protected override void OnCreate(Bundle savedInstanceState)
 
 ### StatusBar color iOS
 
-On iOS 13.0 and greater StatusBar color is set to color of NavigationBar color if there is a navigation page present. If not StatusBar color is set to system light or dark depending on current theme.
-To get the same functionality as in android we need to create a new iOS frame and put it in StatusBar location, then we can change its background color, hece we can have different color for StatusBar and NavigationBar. Also we can have StatusBar color if there is no Navigation page present.
-On lesser iOS versions statusBar is set by simply setting background color of statusBar UIView.
-Just like in Android we need to created StatusBarService that will be regestered to IStatusBarService in iOS dependency injection.
+In iOS 13.0 and greater StatusBar color is set to color of NavigationBar color if there is a navigation page present. If not StatusBar color is set to system light or dark depending on current theme.
+To get the same functionality as in Android we need to create a new iOS frame and put it in StatusBar location, then we can change its background color, hence we can have different color for StatusBar and NavigationBar. Also, we can have StatusBar color if there is no Navigation page present.
+On lesser iOS versions StatusBar is set by simply setting background color of StatusBar UIView.
+Just like in Android we need to create StatusBarService that will be registered to IStatusBarService in iOS dependency injection.
 
 ```csharp
 public class StatusBarService : IStatusBarService
@@ -166,12 +166,12 @@ public class iOSInitializer : IPlatformInitializer
 
 ### PopupPage iOS
 
-With current implementation using INavigationBarServie and IStatusBarService we can change background color of NavigationBar and StatusBar independently on iOS and Android.
+With current implementation using INavigationBarServie and IStatusBarService we can independently change background color of NavigationBar and StatusBar on iOS and Android.
 But on iOS there is a problem with PopupPages. In this example we are using [Rg.Plugins.Popup](https://github.com/rotorgames/Rg.Plugins.Popup). When navigating on PopupPage its background color tints the page behind it.
-On android when on PopupPage StatusBar and NavigationBar color is tinted by PopupPage.
-On iOS if on verison 13.0 and up, we are creating a frame that is above PopupPage therefor it will not be tinted by PopupPage backgroun color. To fix this we need to use current StatusBar color and PopupPage background color and calculate new color by overlaying latter on former.
-When new StatusBar color is calculated we set it to StatusBar color and remember previous status bar color so that we can set it back to original color after navigating from PopupPage.
-Now we can update StatusBarService with two new methods. SetStatusBarModalDialogColor that has argument coresponding to PopupPage backgound color and RemoveStatusBarModalDialogColor that will set background color to original. Also there is a private method AddOverlayColorOnStatusBar for calculating overlayed color.
+On Android when on PopupPage, StatusBar and NavigationBar color is tinted by PopupPage.
+On iOS if on version 13.0 and up, we are creating a frame that is above PopupPage therefor it will not be tinted by PopupPage backgroun color. To fix this we need to use current StatusBar color and PopupPage background color and calculate new color by overlaying latter on former.
+When new StatusBar color is calculated we set it to StatusBar color and save previous status bar color so that we can set it back to original color after navigating from PopupPage.
+Now we can update StatusBarService with two new methods. SetStatusBarModalDialogColor that has argument corresponding to PopupPage backgound color and RemoveStatusBarModalDialogColor that will set background color to original. Also, there is a private method AddOverlayColorOnStatusBar for calculating overlayed color.
 
 ```csharp
 public class StatusBarService : IStatusBarService
@@ -261,7 +261,7 @@ public class StatusBarService : IStatusBarService
 
 ### Final IStatusBarService
 
-After fixing PopupPage behaviour on iOS we need to update Andoird implementation as well since it implements same IStatusBarService as iOS service.
+After fixing PopupPage behavior on iOS we need to update Andoird implementation as well since it implements same IStatusBarService as iOS service.
 
 Final IStatusBarService:
 
@@ -303,4 +303,4 @@ public class StatusBarService : IStatusBarService
 
 ### Conclusion
 
-With this implementation we can have same StatusBar and NavigationBar functionality on both Android and iOS. For further information you can check out example project that fully demonstrates how to setup and implement given functionalites.
+With this implementation we can have same StatusBar and NavigationBar functionality on both Android and iOS. For further information you can check out example project that fully demonstrates how to setup and implement given functionalities.
